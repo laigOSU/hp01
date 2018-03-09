@@ -34,12 +34,42 @@ app.get('/home1',function(req,res){
       return;
     }
     context.results = JSON.stringify(rows);
-    console.log("Still from home1",context);
+    console.log("Still from home1",context); //good, consoles the JSON object of students
+    //  Now send this data (that we had console.log'd) via res.send() instead of console.log
 
-    res.render('home0', context);
+    res.type('application/json')
+    res.send(rows); //ORIGINAL
+
+
+    // res.send(context.results); //nope doesn't work
+    // res.render('home0', {results:rows});// res.render('home0', context);
   })
 
 });
+
+// /* 5A. Going to try rendering mysql results without the form's button maybe it's a handlebars prob*/
+// app.get('/test',function(req,res){
+//   console.log("This is /[root]. I am testing MYSQL render");
+//   var context = {};
+//   mysql.pool.query('SELECT * FROM Students', function(err, rows, fields){
+//   // var queryResult = mysql.pool.query('SELECT * FROM Students', function(err, rows, fields){
+//     if(err){
+//       next(err);
+//       return;
+//     }
+//     context.results = JSON.stringify(rows);
+//     // console.log("Still from home1",context);
+//     //  Now send this data (that we had console.log'd) via res.send() instead of console.log
+//
+//
+//     // res.send(context); //ORIGINAL
+//
+//
+//     // res.send(context.results); //nope doesn't work
+//     res.render('home0', context);
+//   })
+//
+// });
 
 
 
