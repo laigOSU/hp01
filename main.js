@@ -1,4 +1,5 @@
 var express = require('express');
+var mysql = require('./dbcon.js');
 
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
@@ -22,9 +23,22 @@ app.get('/home0',function(req,res){
   res.render('home0');
 });
 
+/* 5 . In that same GET request, make a simple query to the database and console.log it.*/
 app.get('/home1',function(req,res){
   console.log("This is home1. I got a GET request");
-  res.render('home0');
+  var context = {};
+  mysql.pool.query('SELECT * FROM Students', function(err, rows, fields){
+  // var queryResult = mysql.pool.query('SELECT * FROM Students', function(err, rows, fields){
+    if(err){
+      next(err);
+      return;
+    }
+    context.results = JSON.stringify(rows);
+    console.log("Still from home1",context);
+
+    res.render('home0', context);
+  })
+
 });
 
 
