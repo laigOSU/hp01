@@ -72,37 +72,6 @@ lumosButton.addEventListener('click', function(){
     <tr>
       <td>  <td>  <td>
 */
-// function generate_table(loadedJSON){
-//   //Get reference for the body
-//   var body = document.getElementsbyTagName("body")[0];
-//
-//   //Creates a <table> element
-//   var table = document.createElement("table");
-//   // var tblBody = document.createElement("tbody");
-//
-//   //Create a header row <tr> with header cells <th>
-//   var head_row = document.createElement("tr");
-//
-//   var head_fname = document.createElement("th");
-//   var head_lname = document.createElement("th");
-//   var head_house = document.createElement("th");
-//   var head_update = document.createElement("th");
-//   var head_delete = document.createElement(loadedJSON);
-//
-//   //Append upward to each parent
-//   head_fname.innerText = "First Name";
-//   head_row.appendChild(head_fname);
-//   head_lname.innerText = "Last Name";
-//   head_row.appendChild(head_lname);
-//   head_house.innerText = "House";
-//   head_row.appendChild(head_house);
-//   head_row.appendChild(head_update);
-//   head_row.appendChild(head_delete);
-//   table.appendChild(head_row);
-//
-//   //
-// }
-
 function generate_table(loadedJSON){
   //Get the table (from home0)
   var table = document.getElementById("home0table");
@@ -125,46 +94,45 @@ function generate_table(loadedJSON){
   head_row.appendChild(head_house);
   head_update.innerText = "Update";
   head_row.appendChild(head_update);
-  head_delete.innerText = loadedJSON;  //idk, just testing if it will print huge string here
+  head_delete.innerText = "Delete";
   head_row.appendChild(head_delete);
 
   table.appendChild(head_row);
 
+  //For each item in loaded JSON object, create new row and insert elements
+  //https://stackoverflow.com/questions/921789/how-to-loop-through-plain-javascript-object-with-objects-as-members
+  //https://stackoverflow.com/questions/1078118/how-do-i-iterate-over-a-json-structure
+  loadedJSON.forEach(function(item){
+    //Create new row/cells to put the loaded JSON in
+    var add_row = document.createElement("tr");
 
+    var add_fname = document.createElement("td");
+    var add_lname = document.createElement("td");
+    var add_house = document.createElement("td");
+    var add_update = document.createElement("td");
+    var add_delete = document.createElement("td");
+
+    /*loaded JSON on client console:
+      0: {id: 2, fname: "Harry", lname: "Potter", house: 9}
+      1: {id: 2, fname: "Ron", lname: "Weasley", house: 9}  */
+      //https://stackoverflow.com/questions/31275357/using-substring-of-json-key-value-for-conditionals
+      //https://www.w3schools.com/jsref/jsref_substring.asp
+
+    // if (item["fname"] != null){
+      add_fname.innerText = item["fname"].substring(0);   //}  curly from if statemetn
+      add_row.appendChild(add_fname);
+
+      add_lname.innerText = item["lname"].substring(0);
+      add_row.appendChild(add_lname);
+
+      //becuase item["house"] is not a substring
+      add_house.innerText = item["house"];
+      add_row.appendChild(add_house);
+
+      //NEED TO APPEND!!
+      table.appendChild(add_row);
+
+  })
 
   //
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Spacing buffer
