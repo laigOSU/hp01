@@ -148,12 +148,19 @@ lumosButton.addEventListener('click', function(event){  //I don't think I need a
   //https://www.w3schools.com/js/js_json_arrays.asp
   // {id: 2, fname: "Harry", lname: "Potter", house: 9}
   //Create the payload object and set all elements to null
-  var payload = {fname:null, lname: null, house: null};
+  var payload = {"fname": null,
+    "lname": null,
+    "house": null};
+
+    console.log(typeof fname);
+    console.log(typeof lname);
+    console.log(typeof house);
+    console.log("HP client going to try sending to HP server")
 
   //Now set the object elements to client input (hp01Form form parameters)
   //OR leave it null, whichever is true
   //and then reset the previous value in the form
-  payload.fname = document.getElementById("addFname").value || null;
+  payload["fname"] = document.getElementById("addFname").value || null;
    document.getElementById("addFname").value = null;
 
   payload.lname = document.getElementById("addLname").value || null;
@@ -161,6 +168,7 @@ lumosButton.addEventListener('click', function(event){  //I don't think I need a
 
   payload.house = document.getElementById("addHouseID").value || null;
   document.getElementById("addHouseID").value = null;
+
 
   //I might need to setRequestHeader
   addReq.open('POST', '/insert', true);
@@ -177,6 +185,7 @@ lumosButton.addEventListener('click', function(event){  //I don't think I need a
      else {
        console.log("Error in network request: " + ourRequest.statusText);
      }
+     // addReq.send(JSON.stringify(payload));
   }
 
   //req.send() here
