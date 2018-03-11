@@ -53,7 +53,23 @@ app.get('/display',function(req,res){   //was home1
 /*****************************************************************************
   INSERT
 *****************************************************************************/
+app.post('/insert',function(req, res){
+  console.log("this is /insert. I got a POST request to ADD.");
+  var context = {};
+  mysql.pool.query('INSERT INTO Students (`fname`, `lname`, `house`) VALUES (?,?,?)',
+    [req.body.fname, req.body.lname, req.body.house], function(err, result){
+      if(err){
+        next(err);
+        return;
+      }
 
+      context.results = JSON.stringify(result);
+      console.log("What I got from /insert: ",context);
+      res.type('application/json');
+      res.send(rows);
+    }
+)
+})
 
 
 
