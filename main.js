@@ -42,7 +42,8 @@ app.get('/home1',function(req,res){
 
 
     // res.send(context.results); //nope doesn't work
-    // res.render('home0', {results:rows});// res.render('home0', context);
+    // res.render('home0', {rows});// res.render('home0', context);
+    //ok, looks like you can't have res.send and res.render simultaneously
   })
 
 });
