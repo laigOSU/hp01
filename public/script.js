@@ -1,3 +1,7 @@
+
+/*****************************************************************************
+0. THE ADD (INSERT) BUTTON
+*****************************************************************************/
 //https://stackoverflow.com/questions/7066191/javascript-onclick-onsubmit-for-dynamically-created-button
 //https://stackoverflow.com/questions/18831783/how-to-call-a-server-side-function-from-client-side-e-g-html-button-onclick-i
 var hpSubmitFunction = function(){
@@ -16,49 +20,46 @@ var hpSubmitFunction = function(){
     // document.body.appendChild(button);
 };
 
-
 //CALL THIS F'N FOR LUMOSBUTTON TO SHOW
 hpSubmitFunction();
 
 
-var lumosButton = document.getElementById("lumosButton");
 
+/*****************************************************************************
+1. DISPLAY  (new xml, GET)
+*****************************************************************************/
+//Get form id
+var addStudent = document.getElementById("hp01Form");
 
-/*Try the AJAX again*/
-lumosButton.addEventListener('click', function(){
-    //Get form id
-    var addStudent = document.getElementById("hp01Form");
+//Create a request in order to add the element to the server
+var ourRequest = new XMLHttpRequest();
 
-    //Create a request in order to add the element to the server
-    var ourRequest = new XMLHttpRequest();
+//Check the parameters...might need /home1 + "?"+ ___
+ourRequest.open('GET', '/home1', true);
 
-    //Check the parameters...might need /home1 + "?"+ ___
-    ourRequest.open('GET', '/home1', true);
+//Do something with the data when it gets loaded.
+//Alternatively can do: ourRequest.addEventListener("load", function(){});
+ourRequest.onload = function(){// ourRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+  //A. If the data from server loads properly, then do something with it.
+  if(ourRequest.status >= 200 && ourRequest.status < 400){
+    var ourData = JSON.parse(ourRequest.responseText); //Parse the loaded JSON data
+    console.log(ourData); //Display the objects to console
 
-    //Do something with the data when it gets loaded.
-    //Alternatively can do: ourRequest.addEventListener("load", function(){});
-    ourRequest.onload = function(){// ourRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      //A. If the data from server loads properly, then do something with it.
-      if(ourRequest.status >= 200 && ourRequest.status < 400){
-        var ourData = JSON.parse(ourRequest.responseText); //Parse the loaded JSON data
-        console.log(ourData); //Display the objects to console
+    //Dynamically create a table to display the loaded ourData (f'n definition below)
+    generate_table(ourData);
+  }
+  //B. If data fails to load from the server, print error message.
+  else{
+    console.log("Error in network request: " + ourRequest.statusText);
+  }
 
-        //Dynamically create a table to display the loaded ourData (f'n definition below)
-        generate_table(ourData);
-      }
-      //B. If data fails to load from the server, print error message.
-      else{
-        console.log("Error in network request: " + ourRequest.statusText);
-      }
+};
+//don't put this here before ourRequest.send(): console.log(ourData);
 
-    };
-    //don't put this here before ourRequest.send(): console.log(ourData);
-
-    ourRequest.send();
-    /* 8. Add console.log() statement to client-side code in callback of the GET ourRequest
-      and log the info coming back from the request*/
-    // console.log(ourData); guess should be in onload bc ourData not defined
-});
+ourRequest.send();
+/* 8. Add console.log() statement to client-side code in callback of the GET ourRequest
+  and log the info coming back from the request*/
+// console.log(ourData); guess should be in onload bc ourData not defined
 
 
 //https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Traversing_an_HTML_table_with_JavaScript_and_DOM_Interfaces
@@ -133,6 +134,26 @@ function generate_table(loadedJSON){
       table.appendChild(add_row);
 
   })
-
-  //
 }
+
+
+/*****************************************************************************
+2. INSERT
+*****************************************************************************/
+
+var lumosButton = document.getElementById("lumosButton");
+
+
+/*Try the AJAX again*/
+lumosButton.addEventListener('click', function(){
+  console.log("I'm going to work on sending these post parameters to server");
+});
+
+/*****************************************************************************
+3. DELETE
+*****************************************************************************/
+
+
+/*****************************************************************************
+4. UPDATE
+*****************************************************************************/
