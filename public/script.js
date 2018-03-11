@@ -52,10 +52,9 @@ ourRequest.onload = function(){// ourRequest.setRequestHeader('Content-Type', 'a
   else{
     console.log("Error in network request: " + ourRequest.statusText);
   }
-
 };
-//don't put this here before ourRequest.send(): console.log(ourData);
 
+//don't put this here before ourRequest.send(): console.log(ourData);
 ourRequest.send();
 /* 8. Add console.log() statement to client-side code in callback of the GET ourRequest
   and log the info coming back from the request*/
@@ -132,7 +131,6 @@ function generate_table(loadedJSON){
 
       //NEED TO APPEND!!
       table.appendChild(add_row);
-
   })
 }
 
@@ -140,13 +138,50 @@ function generate_table(loadedJSON){
 /*****************************************************************************
 2. INSERT
 *****************************************************************************/
-
 var lumosButton = document.getElementById("lumosButton");
 
-
-/*Try the AJAX again*/
-lumosButton.addEventListener('click', function(){
+lumosButton.addEventListener('click', function(event){  //I don't think I need an event parameter. Anyway.
   console.log("I'm going to work on sending these post parameters to server");
+
+  var addReq = new XMLHttpRequest();
+
+  //https://www.w3schools.com/js/js_json_arrays.asp
+  // {id: 2, fname: "Harry", lname: "Potter", house: 9}
+  //Create the payload object and set all elements to null
+  var payload = {fname:null, lname: null, house: null};
+
+  //Now set the object elements to client input (hp01Form form parameters)
+  //OR leave it null, whichever is true
+  //and then reset the previous value in the form
+  payload.fname = document.getElementById("addFname").value || null;
+   document.getElementById("addFname").value = null;
+
+  payload.lname = document.getElementById("addLname").value || null;
+  document.getElementById("addLname").value = null;
+
+  payload.house = document.getElementById("addHouseID").value || null;
+  document.getElementById("addHouseID").value = null;
+
+  //I might need to setRequestHeader
+  addReq.open('POST', '/insert', true);
+  addReq.setRequestHeader('Content-Type', 'application/json');
+
+  addReq.onload = function(){
+     //A. If the data from server loads properly, then do something with it.
+     if(ourRequest.status >= 200 && ourRequest.status < 400){
+       var addedData = JSON.parse(ourRequest.responseText);
+       //Dynamically create a table to display the loaded addedData
+       generate_table(addedData);
+     }
+    //B. If data fails to load from the server, print error message.
+     else {
+       console.log("Error in network request: " + ourRequest.statusText);
+     }
+  }
+
+  //req.send() here
+  addReq.send(JSON.stringify(payload));
+  event.preventDefault();
 });
 
 /*****************************************************************************
@@ -157,3 +192,48 @@ lumosButton.addEventListener('click', function(){
 /*****************************************************************************
 4. UPDATE
 *****************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//space buffer
